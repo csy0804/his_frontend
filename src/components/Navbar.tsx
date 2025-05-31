@@ -111,14 +111,15 @@ export default function Navbar() {
                   <span>Dashboard</span>
                 </Link>
                 {user?.is_staff && (
-                  <Link
-                    to="/d/admin"
+                  <a
+                    href="http://localhost:8998/d/admin"
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white hover:text-gray-200 px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-1"
                   >
                     <Settings size={18} />
                     <span>Admin</span>
-                  </Link>
+                  </a>
                 )}
                 <button
                   onClick={handleLogout}
@@ -180,9 +181,15 @@ export default function Navbar() {
                 Dashboard
               </MobileNavLink>
               {user?.is_staff && (
-                <MobileNavLink to="/d/admin" icon={<Settings size={18} />}>
-                  Admin
-                </MobileNavLink>
+                <a
+                  href="/api/v1/admin/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-100 hover:bg-primary-700 block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-2"
+                >
+                  <Settings size={18} />
+                  <span>Admin</span>
+                </a>
               )}
               <button
                 onClick={handleLogout}

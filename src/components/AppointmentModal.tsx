@@ -179,7 +179,13 @@ export default function AppointmentModal({ appointment, onClose, onSuccess }: Ap
             <input
               type="date"
               value={formData.date}
-              onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value, time: '' }))}
+              onChange={(e) => {
+                const selectedDate = e.target.value;
+                setFormData(prev => ({ ...prev, date: selectedDate, time: '' }));
+                if (selectedDate && formData.speciality && formData.time) {
+                  fetchDoctors(formData.speciality, selectedDate, formData.time);
+                }
+              }}
               min={minDate}
               className="w-full h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary focus:border-primary"
               required
@@ -192,7 +198,13 @@ export default function AppointmentModal({ appointment, onClose, onSuccess }: Ap
             </label>
             <select
               value={formData.time}
-              onChange={(e) => setFormData(prev => ({ ...prev, time: e.target.value }))}
+              onChange={(e) => {
+                const selectedTime = e.target.value;
+                setFormData(prev => ({ ...prev, time: selectedTime }));
+                if (selectedTime && formData.speciality && formData.date) {
+                  fetchDoctors(formData.speciality, formData.date, selectedTime);
+                }
+              }}
               className="w-full h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary focus:border-primary appearance-none"
               required
               disabled={!formData.date}
@@ -213,7 +225,13 @@ export default function AppointmentModal({ appointment, onClose, onSuccess }: Ap
           </label>
           <select
             value={formData.speciality}
-            onChange={(e) => setFormData(prev => ({ ...prev, speciality: e.target.value, doctor_id: '' }))}
+            onChange={(e) => {
+              const selectedSpeciality = e.target.value;
+              setFormData(prev => ({ ...prev, speciality: selectedSpeciality, doctor_id: '' }));
+              if (selectedSpeciality && formData.date && formData.time) {
+                fetchDoctors(selectedSpeciality, formData.date, formData.time);
+              }
+            }}
             className="w-full h-12 px-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-primary focus:border-primary"
             required
           >
@@ -238,7 +256,7 @@ export default function AppointmentModal({ appointment, onClose, onSuccess }: Ap
               loading && "animate-pulse"
             )}
             required
-            disabled={loading || !formData.speciality || !formData.date || !formData.time}
+            disabled={!formData.speciality || !formData.date || !formData.time}
           >
             <option value="">Select a doctor</option>
             {doctors.map((doctor) => (
