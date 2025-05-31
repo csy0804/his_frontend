@@ -8,5 +8,6 @@ npm install
 npm run dev
 ```
 
-启动前端之后直接访问 http://localhost:5173/（vite默认地址）即可
+启动前端之后直接访问 http://localhost:5173/
+（vite默认地址）即可
 
